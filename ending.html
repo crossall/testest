@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>탈출 성공! 축하합니다</title>
+    <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&display=swap" rel="stylesheet">
+    <style>
+        /* 기본 스타일 초기화 */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: 'Gamja Flower', cursive; /* 손글씨 느낌 폰트 */
+            background-color: #fdf6e3; /* 따뜻한 크림색 배경 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+            overflow-x: hidden;
+            color: #4a4a4a;
+        }
+
+        .container {
+            max-width: 800px;
+            padding: 20px;
+            animation: fadeIn 2s ease-out; /* 부드럽게 나타나기 */
+            position: relative;
+            z-index: 10;
+        }
+
+        /* 이미지 스타일 */
+        .ending-image {
+            width: 100%;
+            max-width: 600px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(255, 165, 0, 0.3); /* 금빛 그림자 */
+            border: 5px solid #fff;
+            margin-bottom: 30px;
+            transition: transform 0.3s;
+        }
+
+        .ending-image:hover {
+            transform: scale(1.02);
+        }
+
+        /* 텍스트 스타일 */
+        h1 {
+            font-size: 3rem;
+            color: #ff6b6b;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 0px #fff;
+        }
+
+        p.message {
+            font-size: 1.5rem;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            color: #555;
+        }
+
+        /* 버튼 스타일 */
+        .btn-restart {
+            background-color: #ff9f43;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.5rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: 'Gamja Flower', cursive;
+            box-shadow: 0 5px 15px rgba(255, 159, 67, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .btn-restart:hover {
+            background-color: #ee5253;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(238, 82, 83, 0.4);
+        }
+
+        /* 애니메이션 정의 */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+
+    <div class="container">
+        <h1>🎉 축하합니다! 탈출 성공! 🎉</h1>
+        
+        <img src="ending_image.jpg" alt="환희의 순간" class="ending-image" id="endingImg">
+        
+        <div class="message-box">
+            <p class="message">
+                어두웠던 교실의 괴담은 모두 사라졌습니다.<br>
+                당신의 용기와 지혜가 학교에 다시<br>
+                <strong>따스한 햇살</strong>을 가져왔습니다!
+            </p>
+        </div>
+
+        <button class="btn-restart" onclick="location.reload()">처음으로 돌아가기</button>
+    </div>
+
+    <script>
+        // 페이지 로드 시 폭죽 터뜨리기
+        window.onload = function() {
+            // 1. 기본 폭죽
+            confetti({
+                particleCount: 150,
+                spread: 70,
+                origin: { y: 0.6 },
+                colors: ['#ff9f43', '#ee5253', '#2e86de', '#f368e0', '#feca57']
+            });
+
+            // 2. 양옆에서 쏘아 올리는 효과 (좀 더 화려하게)
+            setTimeout(() => {
+                var end = Date.now() + (2 * 1000); // 2초 동안
+                var colors = ['#bb0000', '#ffffff'];
+
+                (function frame() {
+                    confetti({
+                        particleCount: 2,
+                        angle: 60,
+                        spread: 55,
+                        origin: { x: 0 },
+                        colors: colors
+                    });
+                    confetti({
+                        particleCount: 2,
+                        angle: 120,
+                        spread: 55,
+                        origin: { x: 1 },
+                        colors: colors
+                    });
+
+                    if (Date.now() < end) {
+                        requestAnimationFrame(frame);
+                    }
+                }());
+            }, 500);
+        };
+        
+        // 이미지 파일이 없을 경우를 대비한 임시 처리 (실제 사용시엔 필요 없음)
+        document.getElementById('endingImg').onerror = function() {
+            this.src = "https://via.placeholder.com/600x400/ff9f43/ffffff?text=Ending+Image+Here";
+        };
+    </script>
+</body>
+</html>
